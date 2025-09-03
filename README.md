@@ -106,7 +106,8 @@ Zero-width positions:
 ./zwbypass.py -i $'..\u200b/' --encode                                                                                                                                                                                   ..%E2%80%8B%2F    
 
 ----------------------------------------------
-🪪🪪Using zwbypass.py for Emails🪪🪪                                                                                                                                                                                    📌 Say you want to test if the system lets you sign up with "abc@gmail.com" disguised with zero-width chars.
+🪪🪪Using zwbypass.py for Emails🪪🪪
+📌 Say you want to test if the system lets you sign up with "abc@gmail.com" disguised with zero-width chars.
 🌀Insert Zero-Width in Local Part (abc):
 ./zwbypass.py -i "abc@gmail.com" --mode keywords --keywords abc --zw zwsp  ----> Output "abc@gmail.com" ---> (looks identical, but the local-part "abc" has U+200B inserted). Let me explain and to you more🤹‍♂️❗️         
 🌀Run above again but this time we will save it into a file mustafa.txt as shows ----> ./zwbypass.py -i "abc@gmail.com" --mode  keywords --keywords abc --zw zwsp > mustafa.txt                                          
