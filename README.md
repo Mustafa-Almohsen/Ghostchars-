@@ -15,7 +15,7 @@ zwbypass is a Python CLI tool for obfuscating strings with invisible zero-width 
 
 ------------------------------
 
-🩻 What’s the use cases of this tool in real world⁉️
+🩻 What’s the use cases of this tool in real world⁉️                                                                                                                                                                     
 Great question! this method (zero-width + homoglyph injections) has some very real bug bounty / red team use cases, and zwbypass tool makes it much easier to test them. Let me break it down into offensive use cases (for hunters) and than defensive (for devs/security teams):
 
 🟢 Offensive Bug Hunting Use Cases
@@ -68,9 +68,7 @@ Zwbypass tool is not only for bypassing, but also for testing and defending:
 
 -----------------------------------------------------------------------
 
-🔴 Usage of tool: 
-Here is outputs for each mode of the tool so you can see exactly what’s happening. I’ll use the input string "admin" and "script" as examples.
-
+🔴 Usage of tool:                                                                                                                                                                                                       Here is outputs for each mode of the tool so you can see exactly what’s happening. I’ll use the input string "admin" and "script" as examples.
 1. Mode: every
 Command: ./zwbypass.py -i "admin" --mode every --zw zwsp
 Output: a​d​m​i​n   ---> (that’s "admin" but with U+200B zero-width spaces between each character - well yes, it is looks identical on screen!👉 because the zero-width space (ZWSP) is invisible.
@@ -97,36 +95,27 @@ Output:  adm[ZWSP](U+200B)in   Zero-width positions:   - index 3: U+200B ZERO WI
 Command: ./zwbypass.py -i $'adm\u200bin' --mode strip
 
 Output: admin ---> (The hidden U+200C ZWNJ is gone, string normalized).                                                                                                                                                   
-
-
-┌──(kali㉿kali)-[~/webtools/my-tools/zero-width-tools]
-└─$ ./zwbypass.py -i $'\u200b' --mode detect  
+ ./zwbypass.py -i $'\u200b' --mode detect  
 [ZWSP](U+200B)
 
 Zero-width positions:
   - index 0: U+200B ZERO WIDTH SPACE
-                                                                                                                                   
-┌──(kali㉿kali)-[~/webtools/my-tools/zero-width-tools]                                                                                                                                                                    
-└─$ ./zwbypass.py -i $'..\u200b' --encode 
-..%E2%80%8B
 
-┌──(kali㉿kali)-[~/webtools/my-tools/zero-width-tools]                                                                                                                                                                    
-└─$ ./zwbypass.py -i $'..\u200b/' --encode    
-..%E2%80%8B%2F
+./zwbypass.py -i $'..\u200b' --encode                                                                                                                                                                                    ..%E2%80%8B
+
+./zwbypass.py -i $'..\u200b/' --encode                                                                                                                                                                                   ..%E2%80%8B%2F    
 
 ----------------------------------------------
-🪪🪪Using zwbypass.py for Emails🪪🪪                                                                                                                                                                                  📌 Say you want to test if the system lets you sign up with "abc@gmail.com" disguised with zero-width chars.                                                                                                             
+🪪🪪Using zwbypass.py for Emails🪪🪪                                                                                                                                                                                    📌 Say you want to test if the system lets you sign up with "abc@gmail.com" disguised with zero-width chars.                                                                                                             
 
 🌀Insert Zero-Width in Local Part (abc):
 ./zwbypass.py -i "abc@gmail.com" --mode keywords --keywords abc --zw zwsp  ----> Output "abc@gmail.com" ---> (looks identical, but the local-part "abc" has U+200B inserted). Let me explain and to you more🤹‍♂️❗️         
 🌀Run above again but this time we will save it into a file mustafa.txt as shows ----> ./zwbypass.py -i "abc@gmail.com" --mode  keywords --keywords abc --zw zwsp > mustafa.txt                                          
 🌀When you saved it to file (mustafa.txt) and inspected:                                                                                                                                                                 
-┌──(kali㉿kali)-[~/webtools/my-tools/zero-width-tools]                                                                                                                                                                    
-└─$ wc -m mustafa.txt                                                                       
+🌀 wc -m mustafa.txt                                                                       
 16 mustafa.txt
 🌀Normal abc@gmail.com\n should be 14 characters (12 letters + @ + . + newline). You got 16, which means there are 2 extra invisible characters inside🕵️ ---> ✅ ZWSP inserted                                          
-┌──(kali㉿kali)-[~/webtools/my-tools/zero-width-tools]
-└─$ od -c  mustafa.txt                                                                      
+🌀 od -c  mustafa.txt                                                                      
 0000000   a 342 200 213   b 342 200 213   c   @   g   m   a   i   l   .
 0000020   c   o   m  \n
 0000024                                                                                                                                                                                                                   
