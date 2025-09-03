@@ -128,7 +128,7 @@ Zero-width positions:
 🧟But many custom systems (bug bounty targets, startups, old apps) may not sanitize properly  and that’s where your trick becomes interesting.
 
 ---------------------------
-🌐With these, you can:
-🔰 Generate bypass payloads (every, random, keywords, homoglyphs).
-🔰 Detect/filter them in captured traffic.
+🌐With these, you can:                                                                                                                                                  
+🔰 Generate bypass payloads (every, random, keywords, homoglyphs).                                                                                                      
+🔰 Detect/filter them in captured traffic.                                                                                                                              
 🔰 Normalize inputs back to clean form.
