@@ -12,7 +12,9 @@ zwbypass is a Python CLI tool for obfuscating strings with invisible zero-width 
 🌀Strip zero-width characters to normalize inputs.
 
 🌀Generate payloads to test filter bypasses, signup flows, WAFs, and input validation.
+
 ------------------------------
+
 🩻 What’s the use cases of this tool in real world⁉️
 Great question! this method (zero-width + homoglyph injections) has some very real bug bounty / red team use cases, and zwbypass tool makes it much easier to test them. Let me break it down into offensive use cases (for hunters) and than defensive (for devs/security teams):
 
@@ -63,6 +65,7 @@ Zwbypass tool is not only for bypassing, but also for testing and defending:
 🌀 Normalization in pipelines: Use --mode strip to sanitize logs, usernames, or parameters before matching.
 
 🌀 Hardening filters: Test a WAF/rule with obfuscated payloads to see if it actually normalizes properly.
+
 -----------------------------------------------------------------------
 
 🔴 Usage of tool: 
@@ -74,25 +77,26 @@ Output: a​d​m​i​n   ---> (that’s "admin" but with U+200B zero-width sp
 If we add --encode: a%E2%80%8Bd%E2%80%8Bm%E2%80%8Bi%E2%80%8Bn
 
 2. Mode: random
-Command: ./zwbypass.py -i "script" --mode random --prob 0.5 --zw zwnj
+Command: ./zwbypass.py -i "script" --mode random --prob 0.5 --zw zwnj                                                                                                                                                     
 Possible output (random each run, ~50% chance between characters):
 Output: s​cr​i​pt   --->  (where the U+200C Zero Width Non-Joiner was injected a few times). ---->  Encoded: s%E2%80%8Ccr%E2%80%8Ci%E2%80%8Cpt
 
 3.  Mode: keywords
-Command: ./zwbypass.py -i "user=admin&role=user" --mode keywords --keywords admin,role --zw zwsp
+Command: ./zwbypass.py -i "user=admin&role=user" --mode keywords --keywords admin,role --zw zwsp                                                                                                                          
 Output: user=a​d​m​i​n&r​o​l​e=user ---> (admin and role split by zero-width spaces, rest untouched). ----> Encoded: user=a%E2%80%8Bd%E2%80%8Bm%E2%80%8Bi%E2%80%8Bn&r%E2%80%8Bo%E2%80%8Bl%E2%80%8Be=user
 
 4. Mode: homoglyphs
-Command: ./zwbypass.py -i "script" --mode homoglyphs
+Command: ./zwbypass.py -i "script" --mode homoglyphs                                                                                                                                                                      
 Output: sсrірт ---> Notice: s replaced with Cyrillic 'ѕ' (U+0455) and  'c' replaced with Cyrillic с (U+0441) and 'i' replaced with Cyrillic і (U+0456) - Other letters stay the same. Looks identical but isn’t.
 
 5.  Mode: detect
-Command: ./zwbypass.py -i $'adm\u200bin' --mode detect
+Command: ./zwbypass.py -i $'adm\u200bin' --mode detect                                                                                                                                                                    
 Output:  adm[ZWSP](U+200B)in   Zero-width positions:   - index 3: U+200B ZERO WIDTH SPACE
 
 6. Mode: strip
 Command: ./zwbypass.py -i $'adm\u200bin' --mode strip
-Output: admin ---> (The hidden U+200C ZWNJ is gone, string normalized). 
+
+Output: admin ---> (The hidden U+200C ZWNJ is gone, string normalized).                                                                                                                                                   
 
 
 ┌──(kali㉿kali)-[~/webtools/my-tools/zero-width-tools]
@@ -102,36 +106,33 @@ Output: admin ---> (The hidden U+200C ZWNJ is gone, string normalized).
 Zero-width positions:
   - index 0: U+200B ZERO WIDTH SPACE
                                                                                                                                    
-┌──(kali㉿kali)-[~/webtools/my-tools/zero-width-tools]
+┌──(kali㉿kali)-[~/webtools/my-tools/zero-width-tools]                                                                                                                                                                    
 └─$ ./zwbypass.py -i $'..\u200b' --encode 
 ..%E2%80%8B
 
-┌──(kali㉿kali)-[~/webtools/my-tools/zero-width-tools]
+┌──(kali㉿kali)-[~/webtools/my-tools/zero-width-tools]                                                                                                                                                                    
 └─$ ./zwbypass.py -i $'..\u200b/' --encode    
 ..%E2%80%8B%2F
 
 ----------------------------------------------
-🪪🪪Using zwbypass.py for Emails🪪🪪
-
-📌 Say you want to test if the system lets you sign up with "abc@gmail.com" disguised with zero-width chars.
+🪪🪪Using zwbypass.py for Emails🪪🪪                                                                                                                                                                                  📌 Say you want to test if the system lets you sign up with "abc@gmail.com" disguised with zero-width chars.                                                                                                             
 
 🌀Insert Zero-Width in Local Part (abc):
-./zwbypass.py -i "abc@gmail.com" --mode keywords --keywords abc --zw zwsp  ----> Output "abc@gmail.com" ---> (looks identical, but the local-part "abc" has U+200B inserted). Let me explain and to you more🤹‍♂️❗️
-🌀Run above again but this time we will save it into a file mustafa.txt as shows ----> ./zwbypass.py -i "abc@gmail.com" --mode  keywords --keywords abc --zw zwsp > mustafa.txt 
-🌀When you saved it to file (mustafa.txt) and inspected: 
-┌──(kali㉿kali)-[~/webtools/my-tools/zero-width-tools]
+./zwbypass.py -i "abc@gmail.com" --mode keywords --keywords abc --zw zwsp  ----> Output "abc@gmail.com" ---> (looks identical, but the local-part "abc" has U+200B inserted). Let me explain and to you more🤹‍♂️❗️         
+🌀Run above again but this time we will save it into a file mustafa.txt as shows ----> ./zwbypass.py -i "abc@gmail.com" --mode  keywords --keywords abc --zw zwsp > mustafa.txt                                          
+🌀When you saved it to file (mustafa.txt) and inspected:                                                                                                                                                                 
+┌──(kali㉿kali)-[~/webtools/my-tools/zero-width-tools]                                                                                                                                                                    
 └─$ wc -m mustafa.txt                                                                       
 16 mustafa.txt
-🌀Normal abc@gmail.com\n should be 14 characters (12 letters + @ + . + newline). You got 16, which means there are 2 extra invisible characters inside🕵️ ---> ✅ ZWSP inserted
+🌀Normal abc@gmail.com\n should be 14 characters (12 letters + @ + . + newline). You got 16, which means there are 2 extra invisible characters inside🕵️ ---> ✅ ZWSP inserted                                          
 ┌──(kali㉿kali)-[~/webtools/my-tools/zero-width-tools]
 └─$ od -c  mustafa.txt                                                                      
 0000000   a 342 200 213   b 342 200 213   c   @   g   m   a   i   l   .
 0000020   c   o   m  \n
-0000024
-🌀a 342 200 213 b 342 200 213 c @ g m a i l . c o m  --> 🌀342 200 213 = UTF-8 encoding of U+200B ZERO WIDTH SPACE --> 🌀Appears after a and b  so the string is actually: a[ZWSP]b[ZWSP]c@gmail.com 🧟‍♀️ So the file does contain invisible ZWSP characters. If you open the file and copy it  the ZWSPs will also be copied (they travel with the text). If you copy directly from terminal output the ZWSPs are also copied, even though you can’t see them. That’s why attackers (and researchers like us) love these characters: they stick around in copy/paste, databases, and forms unless the system strips them. So, whether you copy from terminal or from the file the invisible characters are preserved.
+0000024                                                                                                                                                                                                                   
+🌀a 342 200 213 b 342 200 213 c @ g m a i l . c o m  --> 🌀342 200 213 = UTF-8 encoding of U+200B ZERO WIDTH SPACE --> 🌀Appears after a and b  so the string is actually: a[ZWSP]b[ZWSP]c@gmail.com 🧟‍♀️ So the file does contain invisible ZWSP characters. If you open the file and copy it  the ZWSPs will also be copied (they travel with the text). If you copy directly from terminal output the ZWSPs are also copied, even though you can’t see them. That’s why attackers (and researchers like us) love these characters: they stick around in copy/paste, databases, and forms unless the system strips them. So, whether you copy from terminal or from the file the invisible characters are preserved.                                                                                                                                                                     
 
-🪪🪪So in signup/signin flows🪪🪪
-
+🪪🪪So in signup/signin flows🪪🪪                                                                                                                                                                                       
 🧟This depends entirely on how the backend handles Unicode: Some systems normalize input (strip zero-widths). Then a​b​c@gmail.com --> abc@gmail.com ---> treated as the same account.
 🧟Some systems don’t normalize  they’ll think a​b​c@gmail.com is a different account than abc@gmail.com.
 🧟Email providers (like Gmail, Outlook) are usually strict  they reject or normalize hidden characters in the local part (before @).
