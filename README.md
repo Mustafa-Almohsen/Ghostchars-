@@ -1,5 +1,7 @@
 # Ghostchars 🎴🔰
 zwbypass is a Python CLI tool for obfuscating strings with invisible zero-width characters and homoglyphs, detecting them, and stripping them. It’s designed for authorized security testing, bug bounty hunters, and developers who want to test input validation, WAF filters, or normalization issues.
+<img width="1337" height="436" alt="image" src="https://github.com/user-attachments/assets/0c090235-b417-4de7-80b5-54bf5d2a775b" />
+
 ----------------------------------
 🟢 This tool can do the following:
 
