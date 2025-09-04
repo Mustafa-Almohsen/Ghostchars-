@@ -106,15 +106,15 @@ Output:  adm[ZWSP](U+200B)in   Zero-width positions:   - index 3: U+200B ZERO WI
 Command: ./zwbypass.py -i $'adm\u200bin' --mode strip
 
 Output: admin ---> (The hidden U+200C ZWNJ is gone, string normalized).                                                                                                                                                   
- ./zwbypass.py -i $'\u200b' --mode detect  
+ 8. ./zwbypass.py -i $'\u200b' --mode detect  
 [ZWSP](U+200B)
 
 Zero-width positions:
   - index 0: U+200B ZERO WIDTH SPACE
 
-./zwbypass.py -i $'..\u200b' --encode                                                                                                                                                                                    ..%E2%80%8B
+9. ./zwbypass.py -i $'..\u200b' --encode                                                                                                                                                                                    ..%E2%80%8B
 
-./zwbypass.py -i $'..\u200b/' --encode                                                                                                                                                                                   ..%E2%80%8B%2F    
+10. ./zwbypass.py -i $'..\u200b/' --encode                                                                                                                                                                                   ..%E2%80%8B%2F    
 
 ----------------------------------------------
 🪪🪪Using zwbypass.py for Emails🪪🪪                                                                                                                                                                                    
