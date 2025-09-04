@@ -106,19 +106,19 @@ Zero-width positions:
 ./zwbypass.py -i $'..\u200b/' --encode                                                                                                                                                                                   ..%E2%80%8B%2F    
 
 ----------------------------------------------
-🪪🪪Using zwbypass.py for Emails🪪🪪
+🪪🪪Using zwbypass.py for Emails🪪🪪                                                                                                                                                                                    
 📌 Say you want to test if the system lets you sign up with "abc@gmail.com" disguised with zero-width chars.
 🌀Insert Zero-Width in Local Part (abc):
 ./zwbypass.py -i "abc@gmail.com" --mode keywords --keywords abc --zw zwsp  ----> Output "abc@gmail.com" ---> (looks identical, but the local-part "abc" has U+200B inserted). Let me explain and to you more🤹‍♂️❗️         
 🌀Run above again but this time we will save it into a file mustafa.txt as shows ----> ./zwbypass.py -i "abc@gmail.com" --mode  keywords --keywords abc --zw zwsp > mustafa.txt                                          
 🌀When you saved it to file (mustafa.txt) and inspected:                                                                                                                                                                 
 🌀 wc -m mustafa.txt                                                                       
-16 mustafa.txt
+16 mustafa.txt                                                                                                                                                                                                            
 🌀Normal abc@gmail.com\n should be 14 characters (12 letters + @ + . + newline). You got 16, which means there are 2 extra invisible characters inside🕵️ ---> ✅ ZWSP inserted                                          
-🌀 od -c  mustafa.txt                                                                      
+🌀 od -c  mustafa.txt                                                                                                                                                                                                                                                                          
 0000000   a 342 200 213   b 342 200 213   c   @   g   m   a   i   l   .
 0000020   c   o   m  \n
-0000024                                                                                                                                                                                                                   
+0000024                                                                                                                                                                                                                                                                                                                                                                                                                                       
 🌀a 342 200 213 b 342 200 213 c @ g m a i l . c o m  --> 🌀342 200 213 = UTF-8 encoding of U+200B ZERO WIDTH SPACE --> 🌀Appears after a and b  so the string is actually: a[ZWSP]b[ZWSP]c@gmail.com 🧟‍♀️ So the file does contain invisible ZWSP characters. If you open the file and copy it  the ZWSPs will also be copied (they travel with the text). If you copy directly from terminal output the ZWSPs are also copied, even though you can’t see them. That’s why attackers (and researchers like us) love these characters: they stick around in copy/paste, databases, and forms unless the system strips them. So, whether you copy from terminal or from the file the invisible characters are preserved.                                                                                                                                                                     
 
 🪪🪪So in signup/signin flows🪪🪪                                                                                                                                                                                       
