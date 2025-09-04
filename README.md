@@ -70,30 +70,39 @@ Zwbypass tool is not only for bypassing, but also for testing and defending:
 
 -----------------------------------------------------------------------
 
-🔴 Usage of tool:                                                                                                                                                                                                       Here is outputs for each mode of the tool so you can see exactly what’s happening. I’ll use the input string "admin" and "script" as examples.
-1. Mode: every
+🔴 Usage of tool:
+
+Here is outputs for each mode of the tool so you can see exactly what’s happening. I’ll use the input string "admin" and "script" as examples.
+1. Mode: every                                                                                                                                                                                                            
 Command: ./zwbypass.py -i "admin" --mode every --zw zwsp
 Output: a​d​m​i​n   ---> (that’s "admin" but with U+200B zero-width spaces between each character - well yes, it is looks identical on screen!👉 because the zero-width space (ZWSP) is invisible.
 If we add --encode: a%E2%80%8Bd%E2%80%8Bm%E2%80%8Bi%E2%80%8Bn
 
-2. Mode: random
+2. Mode: random                                                                                                                                                                                                           
 Command: ./zwbypass.py -i "script" --mode random --prob 0.5 --zw zwnj                                                                                                                                                     
 Possible output (random each run, ~50% chance between characters):
 Output: s​cr​i​pt   --->  (where the U+200C Zero Width Non-Joiner was injected a few times). ---->  Encoded: s%E2%80%8Ccr%E2%80%8Ci%E2%80%8Cpt
 
-3.  Mode: keywords
+
+2.2 Mode: random 
+
+./zwbypass.py -i $'admin' --mode random --encode --prob 0.4
+Output: adm%E2%80%8Bin                                                                                                                                                                                                    # So 👉 %E2%80%8B 👉 decoded 👉 'balnk​' (but you won’t see it since it’s invisible). 👉 I suggest to used for Obfuscation purposes: In URLs, or filenames/words to bypass filters.                                     
+
+
+4.  Mode: keywords                                                                                                                                                                                                        
 Command: ./zwbypass.py -i "user=admin&role=user" --mode keywords --keywords admin,role --zw zwsp                                                                                                                          
 Output: user=a​d​m​i​n&r​o​l​e=user ---> (admin and role split by zero-width spaces, rest untouched). ----> Encoded: user=a%E2%80%8Bd%E2%80%8Bm%E2%80%8Bi%E2%80%8Bn&r%E2%80%8Bo%E2%80%8Bl%E2%80%8Be=user
 
-4. Mode: homoglyphs
+5. Mode: homoglyphs                                                                                                                                                                                                       
 Command: ./zwbypass.py -i "script" --mode homoglyphs                                                                                                                                                                      
 Output: sсrірт ---> Notice: s replaced with Cyrillic 'ѕ' (U+0455) and  'c' replaced with Cyrillic с (U+0441) and 'i' replaced with Cyrillic і (U+0456) - Other letters stay the same. Looks identical but isn’t.
 
-5.  Mode: detect
+6.  Mode: detect                                                                                                                                                                                                           
 Command: ./zwbypass.py -i $'adm\u200bin' --mode detect                                                                                                                                                                    
 Output:  adm[ZWSP](U+200B)in   Zero-width positions:   - index 3: U+200B ZERO WIDTH SPACE
 
-6. Mode: strip
+7. Mode: strip                                                                                                                                                                                                            
 Command: ./zwbypass.py -i $'adm\u200bin' --mode strip
 
 Output: admin ---> (The hidden U+200C ZWNJ is gone, string normalized).                                                                                                                                                   
