@@ -105,7 +105,7 @@ Output:  adm[ZWSP](U+200B)in   Zero-width positions:   - index 3: U+200B ZERO WI
 7. Mode: strip                                                                                                                                                                                                            
 Command: ./zwbypass.py -i $'adm\u200bin' --mode strip
 
-Output: admin ---> (The hidden U+200C ZWNJ is gone, string normalized).                                                                                                                                                   
+Output: admin ---> (The hidden U+200C ZWNJ is gone, string normalized).                                                                                                                                                                                                                                                                                                       
  8. ./zwbypass.py -i $'\u200b' --mode detect                                                                                                                                                                              
 [ZWSP](U+200B)
 
