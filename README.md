@@ -87,7 +87,8 @@ Output: s​cr​i​pt   --->  (where the U+200C Zero Width Non-Joiner was inje
 2.2 Mode: random 
 
 ./zwbypass.py -i $'admin' --mode random --encode --prob 0.4                                                                                                                                                               
-Output: adm%E2%80%8Bin 
+Output: adm%E2%80%8Bin                                                                                                                                                                                                   
+
 So 👉 %E2%80%8B 👉 decoded 👉 'balnk​' (but you won’t see it since it’s invisible). 👉 I suggest to used for Obfuscation purposes: In URLs, or filenames/words to bypass filters.                                                                                                                                                                                                       
 
 Command: ./zwbypass.py -i "script" --mode homoglyphs                                                                                                                                                                      
