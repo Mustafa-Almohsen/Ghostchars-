@@ -87,14 +87,10 @@ Output: s​cr​i​pt   --->  (where the U+200C Zero Width Non-Joiner was inje
 2.2 Mode: random 
 
 ./zwbypass.py -i $'admin' --mode random --encode --prob 0.4                                                                                                                                                               
-Output: adm%E2%80%8Bin                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    # So 👉 %E2%80%8B 👉 decoded 👉 'balnk​' (but you won’t see it since it’s invisible). 👉 I suggest to used for Obfuscation purposes: In URLs, or filenames/words to bypass filters.                                     
+Output: adm%E2%80%8Bin 
 
+# So 👉 %E2%80%8B 👉 decoded 👉 'balnk​' (but you won’t see it since it’s invisible). 👉 I suggest to used for Obfuscation purposes: In URLs, or filenames/words to bypass filters.                                                                                                                                                                                                       
 
-4.  Mode: keywords                                                                                                                                                                                                        
-Command: ./zwbypass.py -i "user=admin&role=user" --mode keywords --keywords admin,role --zw zwsp                                                                                                                          
-Output: user=a​d​m​i​n&r​o​l​e=user ---> (admin and role split by zero-width spaces, rest untouched). ----> Encoded: user=a%E2%80%8Bd%E2%80%8Bm%E2%80%8Bi%E2%80%8Bn&r%E2%80%8Bo%E2%80%8Bl%E2%80%8Be=user
-
-5. Mode: homoglyphs                                                                                                                                                                                                       
 Command: ./zwbypass.py -i "script" --mode homoglyphs                                                                                                                                                                      
 Output: sсrірт ---> Notice: s replaced with Cyrillic 'ѕ' (U+0455) and  'c' replaced with Cyrillic с (U+0441) and 'i' replaced with Cyrillic і (U+0456) - Other letters stay the same. Looks identical but isn’t.
 
